@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+				<title>
+					<%= pageTitle %>
+				</title>
+				<link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+					<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bungee">
+						<link rel="stylesheet" href="/assets/fonts/font-awesome.min.css">
+							<link rel="stylesheet" href="/assets/css/MUSA_panel-table-1.css">
+								<link rel="stylesheet" href="/assets/css/MUSA_panel-table.css">
+									<link rel="stylesheet" href="/assets/css/styles-1.css">
+										<link rel="stylesheet" href="/assets/css/styles.css">
+											<link rel="stylesheet" href="/assets/css/untitled.css">
+</head>
+
+	<body>
+
+		<div id="editModal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">Edit a phone</h4>
+					</div>
+					<div class="modal-body">
+						<form id="modal-form">
+								<input type="text" name="rid" id="rid" readonly=""></br>
+								<input type="text" name="rname" id="rname"></br>
+								<input type="text" name="rsurname" id="rsurname"></br>
+								<select name = "rsex" id="rsex">
+									<option selected="" disabled="">Sex</option>
+										<option value = 'Male'>Male</option>
+										<option value = "Female">Female</option>
+								</select>
+								<input type="date" name="Dr" id="Dr"></br>
+								<select name = "rnameo" id="rnameo">
+									<option selected="" disabled="">Choose Organization</option>
+									<% organization.forEach((i, _) => {%>
+										<option value = "<%=i.name %>"><%= i.name%></option>
+									<% }) %>
+								</select>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" form="modal-form" class="btn btn-success">Update</button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		
+		<div id="navigation-block">
+			<nav class="navbar navbar-light navbar-expand-md">
+				<div class="container-fluid">
+					<a class="navbar-brand" style="font-family:Bungee, cursive;" href="#">elidek</a>
+					<button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1">
+						<span class="visually-hidden">Toggle navigation</span>
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navcol-1">
+						<ul class="navbar-nav">
+							<li class="nav-item">
+								<a class="nav-link active" href=/>Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href=/Researcher>Researcher_menu</a>
+							</li>
+							<li class="nav-item"></li>
+							<li class="nav-item"></li>
+						</ul>
+						<ul class="navbar-nav ms-auto">
+							<li class="nav-item"></li>
+							<li class="nav-item"></li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</div>
+	
+					
+					
+			
+		<div class="container py-5">
+			<div class="row">
+				<div class="col-lg-7 mx-auto bg-white rounded shadow">
+
+					<!-- Fixed header table-->
+					<div class="table-responsive">
+						<table class="table table-fixed">
+							<thead>
+								<tr>
+									<th scope="col" class="col-3">Researcher id</th>
+									<th scope="col" class="col-3">First Name </th>
+									<th scope="col" class="col-3">Last Name </th>
+									<th scope="col" class="col-3">Sex </th>
+									<th scope="col" class="col-3">Date of Birth </th>
+									<th scope="col" class="col-3">organization </th>
+								</tr>
+							</thead>
+							<tbody>
+								<%  Res.forEach((i, _) => { %>
+									<tr>
+										<th scope="row" class="col-3">
+											<%= i.Researher_id%>
+											</th>
+										<td class="col-3">
+											<%= i.name%>
+										</td>
+										<td class="col-3">
+											<%= i.Surname%>
+										</td>
+										<td class="col-3">
+											<%= i.Sex%>
+										</td>
+										<td class="col-3">
+											<%= (i.DateOfBirth).toLocaleDateString()%>
+											</td>
+										<td class="col-3">
+											<%= i.organization%>
+											</td>
+									<td>
+										<a type="button" onclick="setModalFields(this)"
+											data-toggle="modal" 
+											data-id="<%= i.Researher_id%>"
+											data-name="<%= i.name%>"
+											data-surname="<%= i.Surname%>"
+											data-sex= "<%= i.Sex%>"
+											data-Dr = <%= (i.DateOfBirth).toLocaleDateString()%>
+											data-organization = "<%= i.organization%>"
+											data-target="#editModal">
+												<i class="fa fa-edit"></i>
+										</a>
+									</td>
+									<form method="POST" action="/Researcher/addResearchers/delete/<%= i.Researher_id%>">
+										<td>
+											<button style="all: unset; cursor: pointer;" type="submit">
+												<i class="fa fa-trash"></i>
+											</button>
+										</td>
+									</form>
+								</tr>
+									<% }) %>
+
+							</tbody>
+						</table>
+					</div>
+					<!-- End -->
+
+				</div>
+			</div>
+		</div>
+
+
+		<div class="container">
+			<div class="row" id="row">
+				<div class="col-md-12">
+					<h1>Insert a new Researcher</h1>	
+					<form class="form-horizontal" name="student-form" action="/Researcher/addResearchers/add" method="POST">
+						<input type="text" name="namer" id="namer"></br>
+						<input type="text" name="surnamer" id="surnamer"></br>
+						<select name = "sexr" id="sexr">
+							<option selected="" disabled="">Sex</option>
+								<option value = 'Male'>Male</option>
+								<option value = "Female">Female</option>
+						</select>
+						<input type="date" name="dater" id="dater"></br>
+						<select name = "nameor" id="nameor">
+							<option selected="" disabled="">Choose Organization</option>
+							<% organization.forEach((i, _) => {%>
+								<option value = "<%=i.name %>"><%= i.name%></option>
+							<% }) %>
+						</select>
+					    </br>
+						<button type="submit" class="btn btn-primary btn-submit-custom">Submit</button>
+
+					</form>
+				</div>
+			</div>
+		
+
+				<script>
+					function setModalFields(row) {
+					document.getElementById("rid").value = row.dataset.id;
+					document.getElementById("rname").value = row.dataset.name;
+					document.getElementById("rsurname").value = row.dataset.surname;
+					document.getElementById("rsex").value = row.dataset.sex;
+					document.getElementById("Dr").value = row.dataset.Dr;
+					document.getElementById("rnameo").value = row.dataset.organization;
+					document.getElementById("modal-form").action = "/Researcher/addResearchers/edit/";
+					document.getElementById("modal-form").method = "POST";
+					}
+				</script>
+				<script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+				
+					<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+						
+					</script>
+					<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+					<script src="/assets/js/jquery.min.js"></script>
+				<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+				<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+				<script src="/assets/js/Bootstrap-DataTables.js"></script>
+			</body>
+
+</html>
